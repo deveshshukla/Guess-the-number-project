@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
+:root {
+  --white: #eee;
+  --black: #222;
+
+  --green: #60b347;
+  --yellow: #c1c50a;
+  --red: #cb1e55;
+
+  --font: 'Press Start 2P', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--white);
+  background-color: var(--black);
+}
+
+/* LAYOUT */
+header {
+  position: relative;
+  height: 35vh;
+  border-bottom: 7px solid var(--white);
+}
+
+main {
+  height: 65vh;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.left {
+  width: 52rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.right {
+  width: 52rem;
+  font-size: 2rem;
+}
+
+/* ELEMENTS STYLE */
+h1 {
+  font-size: 4rem;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.secNumber {
+  background: var(--white);
+  color: #333;
+  font-size: 6rem;
+  width: 15rem;
+  padding: 3rem 0rem;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+.txtLevel {
+  font-size: 1.2rem;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: var(--black);
+  padding: 1rem;
+  background-color: var(--green);
+
+}
+.txtRule {
+  font-size: 1rem;
+  position: absolute;
+  top: 5rem;
+  right: 2rem;
+  color: var(--white);
+  padding: 1rem;
+}
+
+.again {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.radioBtnContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 3rem;
+  width: 100%;
+  height: 3rem;
+
+  .radioBtn {
+    display: flex;
+    font-size: 1.3rem;
+    gap: .5rem;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
+.guess {
+  background: none;
+  border: 4px solid var(--white);
+  font-family: inherit;
+  color: inherit;
+  font-size: 5rem;
+  padding: 2.5rem;
+  width: 25rem;
+  text-align: center;
+  display: block;
+  margin-bottom: 3rem;
+}
+
+.btn {
+  border: none;
+  background-color: var(--white);
+  color: var(--black);
+  font-size: 2rem;
+  font-family: inherit;
+  padding: 2rem 3rem;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ccc;
+}
+
+.message {
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  height: 3rem;
+  font-size: 1.8rem;
+}
+
+.label-score {
+  margin-bottom: 2rem;
+}
+
+.label-highscore {
+  margin-bottom: 2rem;
+}
+
+/* Media Query */
+
+@media only screen and (max-width: 1100px) {
+  body {
+    overflow-y: auto;
+  }
+
+  h1 {
+    margin-top: 8rem;
+    padding: 0 2rem;
+    line-height: 7rem;
+  }
+
+  .number {
+    bottom: 8rem;
+  }
+}

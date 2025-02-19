@@ -19,7 +19,7 @@ const gameBody = document.querySelector('.body-container');
 const mainBody = document.getElementById('main-container');
 
 //------------ Starting of game ------------
-// gameStart();
+gameStart();
 function gameStart() {
   alert('To Start Game Choose Level 1st')
   txtLevelInfo.style.visibility = 'hidden';

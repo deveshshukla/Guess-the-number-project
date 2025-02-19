@@ -19,9 +19,9 @@ const gameBody = document.querySelector('.body-container');
 const mainBody = document.getElementById('main-container');
 
 //------------ Starting of game ------------
-gameStart();
+// gameStart();
 function gameStart() {
-  alert('To Start Game Choose Level 1st')
+  alert('Choose Level To Start The Game');
   txtLevelInfo.style.visibility = 'hidden';
   txtWrongPenalty.style.visibility = 'hidden';
   mainBody.style.visibility = 'hidden';

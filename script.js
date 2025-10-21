@@ -1,6 +1,6 @@
 'use strict';
 
-//Init varibles
+//Initialize Variables
 const txtLevelInfo = document.querySelector('.txtLevel');
 const txtWrongPenalty = document.querySelector('.txtRule');
 
@@ -8,41 +8,27 @@ const btnAgain = document.querySelector('.again');
 const btnCheck = document.querySelector('.check');
 
 const secNum = document.querySelector('.secNumber');
-const guessInput = document.querySelector('.guess');
+const guessInput = document.querySelector('.userInput');
 
 const gameTitle = document.querySelector('.txtHeading');
 const hintMsg = document.querySelector('.message');
+
 const txtScore = document.querySelector('.score');
-const txtHiScore = document.querySelector('.highscore');
+const txtHiScore = document.querySelector('.highScore');
 
 const gameBody = document.querySelector('.body-container');
 const mainBody = document.getElementById('main-container');
 
-//------------ Starting of game ------------
-// gameStart();
-function gameStart() {
-  alert('Choose Level To Start The Game');
-  txtLevelInfo.style.visibility = 'hidden';
-  txtWrongPenalty.style.visibility = 'hidden';
-  mainBody.style.visibility = 'hidden';
-  
-  disable(btnAgain);
-}
+// Init System generated num.
+let sysGenNum = 0;
 
-//After selecting game level
-const showLvlInfo = () => {
-  txtLevelInfo.style.visibility = 'visible';
-  txtWrongPenalty.style.visibility = 'visible';
-  mainBody.style.visibility = 'visible';
 
-  enable(btnAgain);
-}
 
 //------------ Handel Game Level ------------
-const radioBtns = document.querySelectorAll("input[name = 'gamelevel']");
+const radioBtns = document.querySelectorAll("input[name = 'gameLevel']");
 
 let findSelected = () => {
-  return document.querySelector("input[name='gamelevel']:checked").value;
+  return document.querySelector("input[name='gameLevel']:checked").value;
 };
 
 let selectLvl = radioBtns.forEach((radioBtn) => {
@@ -65,46 +51,29 @@ let selectLvl = radioBtns.forEach((radioBtn) => {
 //Game Level --> Easy
 function lvlEasy() {
   //Static txt content
-  txtLevelInfo.textContent = 'Guess btween (1 to 20)';
+  txtLevelInfo.textContent = 'Guess between (1 to 20)';
   txtWrongPenalty.textContent = 'Wrong penalty (-1 score)';
 
   //design
   txtLevelInfo.style.color = '#000000'
   txtLevelInfo.style.backgroundColor = '#60b347';
 
-  //game rules txt info
-  showLvlInfo();
-
   //game logic
   const easyLvlScore = 20;
-  const easyLvlHiScore = 0;
+  const easyHiScoreArr = [];
 
-  const sysGenNum = genRandomNum(20);
-  btnCheck.addEventListener('click', () => {
-    const usrGuessNum = numEncoding(guessInput.value);
-
-    if(numComparison(usrGuessNum, sysGenNum)) {
-      correctGuessMsg(sysGenNum);
-    }else {
-      incorrectGuessMsg(guessInput.value, sysGenNum);
-      easyLvlScore -= 1;
-      txtScore.textContent = `${easyLvlScore}`;
-    }
-  });
+  sysGenNum = genRandomNum(20);
 }
 
 //Game Level --> Medium
 function lvlMedium() {
   //Static txt content
-  txtLevelInfo.textContent = 'Guess btween (1 to 30)';
+  txtLevelInfo.textContent = 'Guess between (1 to 30)';
   txtWrongPenalty.textContent = 'Wrong penalty (-1 score)';
 
   //style
   txtLevelInfo.style.color = '#000000'
   txtLevelInfo.style.backgroundColor = '#c1c50a';
-
-  //game rules txt info
-  showLvlInfo();
 
   //game logic
   genRandomNum(30);
@@ -113,37 +82,62 @@ function lvlMedium() {
 //Game Level --> Hard
 function lvlHard() {
   //Static txt content
-  txtLevelInfo.textContent = 'Guess btween (1 to 30)';
+  txtLevelInfo.textContent = 'Guess between (1 to 30)';
   txtWrongPenalty.textContent = 'Wrong penalty (-2 score)';
 
   //style
   txtLevelInfo.style.color = '#ffffff'
   txtLevelInfo.style.backgroundColor = '#cb1e55';
 
-  //game rules txt info
-  showLvlInfo();
-
   //game logic
   genRandomNum(30);
 }
 
-//------------Function Genrate Random Num.------------
+// ----------- Function--> Btn Check ------------
+btnCheck.addEventListener('click', () => {
+  const usrGuessNum = numEncoding(guessInput.value);
+  console.log(usrGuessNum);
+  console.log(sysGenNum);
+
+  if(numComparison(usrGuessNum, sysGenNum)) {
+    correctGuessMsg(sysGenNum);
+
+    if(findSelected() === "easy"){
+      
+      txtScore.textContent = `${easyLvlScore}`;
+
+      //Maintain high-score arr
+      easyHiScoreArr.push(easyLvlScore);
+      txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`
+
+    } else if(findSelected() === "medium"){
+      
+    } else if(findSelected() === "hard"){
+      
+    }
+
+  }else {
+    incorrectGuessMsg(guessInput.value, sysGenNum);
+    easyLvlScore -= 1;
+    txtScore.textContent = `${easyLvlScore}`;
+  }
+});
+
+//------------Function Generate Random Num.------------
 function genRandomNum(numRange) {
   return numEncoding(Math.trunc(Math.random() * numRange + 1));
 }
 
-//Function: Encode Genrated Random No.
+//Function: Encode Generated Random No.
 function numEncoding(num) {return btoa(num);}
 
 //--------- Check user input num & game gen num ---------
 function numComparison(usrNum, gameNum) {
-  return gameNum === usrGuessNum ? true : false;
+  return gameNum === usrNum ? true : false;
 }
 
 
-
-
-//-------------Individule functions start-------------
+//-------------Individual functions start-------------
 
 //Function Correct Guess Msg
 function correctGuessMsg(sysGenNum) {
@@ -157,8 +151,8 @@ function correctGuessMsg(sysGenNum) {
 //Function Incorrect Guess Msg
 function incorrectGuessMsg(usrGuessNum, sysGenNum) {
   Number(usrGuessNum) > Number(atob(sysGenNum))
-    ? (hintMsg.textContent = "📈 Inorrect: Too High!")
-    : (hintMsg.textContent = "📉 Inorrect: Too Low!");
+    ? (hintMsg.textContent = "📈 Incorrect: Too High!")
+    : (hintMsg.textContent = "📉 Incorrect: Too Low!");
 }
 
 //Function Game Over Msg
@@ -183,4 +177,4 @@ function enable(btn) { //Enable button
   btn.style.opacity = "1";
 }
 
-//-------------Individule functions ends-------------
+//-------------Individual functions ends-------------

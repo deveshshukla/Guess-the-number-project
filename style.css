@@ -121,7 +121,7 @@ h1 {
   }
 }
 
-.guess {
+.userInput {
   background: none;
   border: 4px solid var(--white);
   font-family: inherit;
@@ -132,6 +132,9 @@ h1 {
   text-align: center;
   display: block;
   margin-bottom: 3rem;
+}
+.userInput:focus {
+  outline: none;
 }
 
 .btn {

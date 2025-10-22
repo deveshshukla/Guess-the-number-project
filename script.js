@@ -50,21 +50,27 @@ radioBtns.forEach((radioBtn) => {
 
 //Game Level --> Easy
 function lvlEasy() {
-  //Static txt content
+
+  // 1: Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 20)';
   txtWrongPenalty.textContent = 'Wrong penalty (-1 score)';
+  hintMsg.textContent = 'Start guessing..?';
+  guessInput.value = '';
 
-  //design
+  // 2: Game Level Design
   txtLevelInfo.style.color = '#000000'
   txtLevelInfo.style.backgroundColor = '#60b347';
 
-  //game logic
+  // 3: Game Score & HiScore Logic
   const easyLvlScore = 20;
-  const easyHiScoreArr = [];
+  txtScore.textContent = `${easyLvlScore}`;
 
+  const easyHiScoreArr = [];
+  easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
+
+  // Give random num range based on level.
   sysGenNum = genRandomNum(20);
 
-  txtScore.textContent = `${easyLvlScore}`;
 
   // Bug:
   // if(numComparison(usrGuessNum, sysGenNum)) {
@@ -80,30 +86,50 @@ function lvlEasy() {
 
 //Game Level --> Medium
 function lvlMedium() {
-  //Static txt content
+
+  // 1: Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
   txtWrongPenalty.textContent = 'Wrong penalty (-1 score)';
+  hintMsg.textContent = 'Start guessing..?';
+  guessInput.value = '';
 
-  //style
+  // 2: Game Level Design
   txtLevelInfo.style.color = '#000000'
   txtLevelInfo.style.backgroundColor = '#c1c50a';
 
-  //game logic
-  genRandomNum(30);
+  // 3: Game Score & HiScore Logic
+  const easyLvlScore = 30;
+  txtScore.textContent = `${easyLvlScore}`;
+
+  const easyHiScoreArr = [];
+  easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
+
+  // Give random num range based on level.
+  sysGenNum = genRandomNum(30);
 }
 
 //Game Level --> Hard
 function lvlHard() {
-  //Static txt content
+
+  // 1: Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
   txtWrongPenalty.textContent = 'Wrong penalty (-2 score)';
+  hintMsg.textContent = 'Start guessing..?';
+  guessInput.value = '';
 
-  //style
+  // 2: Game Level Design
   txtLevelInfo.style.color = '#ffffff'
   txtLevelInfo.style.backgroundColor = '#cb1e55';
 
-  //game logic
-  genRandomNum(30);
+  // 3: Game Score & HiScore Logic
+  const easyLvlScore = 30;
+  txtScore.textContent = `${easyLvlScore}`;
+
+  const easyHiScoreArr = [];
+  easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
+
+  // Give random num range based on level.
+  sysGenNum = genRandomNum(30);
 }
 
 // ----------- Function--> Btn Check ------------

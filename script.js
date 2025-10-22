@@ -21,19 +21,19 @@ const mainBody = document.getElementById('main-container');
 
 // Init System generated num.
 let sysGenNum = 0;
-
+lvlEasy(); // by default easy level on game start
 
 
 //------------ Handel Game Level ------------
-const radioBtns = document.querySelectorAll("input[name = 'gameLevel']");
+const radioBtns = document.querySelectorAll("input[name='gameLevel']");
 
-let findSelected = () => {
-  return document.querySelector("input[name='gameLevel']:checked").value;
-};
+function findSelected() {
+  const checked = document.querySelector("input[name='gameLevel']:checked");
+  return checked ? checked.value : null;
+}
 
-let selectLvl = radioBtns.forEach((radioBtn) => {
-  radioBtn.addEventListener("change", findSelected);
-  radioBtn.addEventListener("click", function () {
+radioBtns.forEach((radioBtn) => {
+  radioBtn.addEventListener("change", function () {
     switch (findSelected()) {
       case "easy":
         lvlEasy();
@@ -63,6 +63,19 @@ function lvlEasy() {
   const easyHiScoreArr = [];
 
   sysGenNum = genRandomNum(20);
+
+  txtScore.textContent = `${easyLvlScore}`;
+
+  // Bug:
+  // if(numComparison(usrGuessNum, sysGenNum)) {
+  //   correctGuessMsg(sysGenNum);
+  // }else {
+  //   incorrectGuessMsg(guessInput.value, sysGenNum);
+  // }
+
+  // //Maintain high-score arr
+  // easyHiScoreArr.push(easyLvlScore);
+  // txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`
 }
 
 //Game Level --> Medium
@@ -96,31 +109,22 @@ function lvlHard() {
 // ----------- Function--> Btn Check ------------
 btnCheck.addEventListener('click', () => {
   const usrGuessNum = numEncoding(guessInput.value);
-  console.log(usrGuessNum);
-  console.log(sysGenNum);
 
-  if(numComparison(usrGuessNum, sysGenNum)) {
-    correctGuessMsg(sysGenNum);
 
-    if(findSelected() === "easy"){
+  // if(numComparison(usrGuessNum, sysGenNum)) {
+  //   correctGuessMsg(sysGenNum);
+
+  //   if(findSelected() === "easy"){
+
+  //   } else if(findSelected() === "medium"){
       
-      txtScore.textContent = `${easyLvlScore}`;
-
-      //Maintain high-score arr
-      easyHiScoreArr.push(easyLvlScore);
-      txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`
-
-    } else if(findSelected() === "medium"){
+  //   } else if(findSelected() === "hard"){
       
-    } else if(findSelected() === "hard"){
-      
-    }
+  //   }
 
-  }else {
-    incorrectGuessMsg(guessInput.value, sysGenNum);
-    easyLvlScore -= 1;
-    txtScore.textContent = `${easyLvlScore}`;
-  }
+  // }else {
+  //   incorrectGuessMsg(guessInput.value, sysGenNum);
+  // }
 });
 
 //------------Function Generate Random Num.------------

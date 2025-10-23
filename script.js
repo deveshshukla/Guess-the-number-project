@@ -19,8 +19,9 @@ const txtHiScore = document.querySelector('.highScore');
 const gameBody = document.querySelector('.body-container');
 const mainBody = document.getElementById('main-container');
 
-// Init System generated num.
-let sysGenNum = 0;
+// Initial
+let sysGenNum;
+let lvlScore;
 lvlEasy(); // by default easy level on game start
 
 
@@ -59,11 +60,11 @@ function lvlEasy() {
 
   // 2: Game Level Design
   txtLevelInfo.style.color = '#000000'
-  txtLevelInfo.style.backgroundColor = '#60b347';
+  txtLevelInfo.style.backgroundColor = '#17adf8ff';
 
   // 3: Game Score & HiScore Logic
-  const easyLvlScore = 20;
-  txtScore.textContent = `${easyLvlScore}`;
+  lvlScore = 20;
+  txtScore.textContent = `${lvlScore}`;
 
   const easyHiScoreArr = [];
   easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
@@ -89,7 +90,7 @@ function lvlMedium() {
 
   // 1: Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
-  txtWrongPenalty.textContent = 'Wrong penalty (-1 score)';
+  txtWrongPenalty.textContent = 'Wrong penalty (-2 score)';
   hintMsg.textContent = 'Start guessing..?';
   guessInput.value = '';
 
@@ -98,8 +99,8 @@ function lvlMedium() {
   txtLevelInfo.style.backgroundColor = '#c1c50a';
 
   // 3: Game Score & HiScore Logic
-  const easyLvlScore = 30;
-  txtScore.textContent = `${easyLvlScore}`;
+  lvlScore = 30;
+  txtScore.textContent = `${lvlScore}`;
 
   const easyHiScoreArr = [];
   easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
@@ -113,7 +114,7 @@ function lvlHard() {
 
   // 1: Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
-  txtWrongPenalty.textContent = 'Wrong penalty (-2 score)';
+  txtWrongPenalty.textContent = 'Wrong penalty (-3 score)';
   hintMsg.textContent = 'Start guessing..?';
   guessInput.value = '';
 
@@ -122,8 +123,8 @@ function lvlHard() {
   txtLevelInfo.style.backgroundColor = '#cb1e55';
 
   // 3: Game Score & HiScore Logic
-  const easyLvlScore = 30;
-  txtScore.textContent = `${easyLvlScore}`;
+  lvlScore = 30;
+  txtScore.textContent = `${lvlScore}`;
 
   const easyHiScoreArr = [];
   easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
@@ -136,21 +137,28 @@ function lvlHard() {
 btnCheck.addEventListener('click', () => {
   const usrGuessNum = numEncoding(guessInput.value);
 
+  if(numComparison(usrGuessNum, sysGenNum)) {
+    correctGuessMsg(sysGenNum);
 
-  // if(numComparison(usrGuessNum, sysGenNum)) {
-  //   correctGuessMsg(sysGenNum);
+    //High score update
 
-  //   if(findSelected() === "easy"){
+  }else {
+    incorrectGuessMsg(guessInput.value, sysGenNum);
 
-  //   } else if(findSelected() === "medium"){
+    if(lvlScore>0) {
+      if(findSelected() === 'easy') {
+        lvlScore -= 1;
+      } else if(findSelected() === 'medium') {
+        lvlScore -= 2;
+      } else if(findSelected() === 'hard') {
+        lvlScore -= 3;
+      }
       
-  //   } else if(findSelected() === "hard"){
-      
-  //   }
-
-  // }else {
-  //   incorrectGuessMsg(guessInput.value, sysGenNum);
-  // }
+      txtScore.textContent = `${lvlScore}`;
+    } else
+      gameOverMsg();
+    
+  }
 });
 
 //------------Function Generate Random Num.------------
@@ -189,10 +197,10 @@ function incorrectGuessMsg(usrGuessNum, sysGenNum) {
 function gameOverMsg() {
   hintMsg.textContent = "☠️ Game Over!";
   secNum.textContent = "⚔️";
-  userScore.textContent = "0";
+  txtScore.textContent = "0";
   guessInput.value = "0";
-  btnCheckDisable();
   document.querySelector("body").style.backgroundColor = "#f92f60";
+  disable(btnCheck);
 }
 
 function disable(btn) { //Disable button

@@ -38,12 +38,15 @@ radioBtns.forEach((radioBtn) => {
     switch (findSelected()) {
       case "easy":
         lvlEasy();
+        gameReset();
         break;
       case "medium":
         lvlMedium();
+        gameReset();
         break;
       case "hard":
         lvlHard();
+        gameReset();
         break;
     }
   });
@@ -71,18 +74,6 @@ function lvlEasy() {
 
   // Give random num range based on level.
   sysGenNum = genRandomNum(20);
-
-
-  // Bug:
-  // if(numComparison(usrGuessNum, sysGenNum)) {
-  //   correctGuessMsg(sysGenNum);
-  // }else {
-  //   incorrectGuessMsg(guessInput.value, sysGenNum);
-  // }
-
-  // //Maintain high-score arr
-  // easyHiScoreArr.push(easyLvlScore);
-  // txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`
 }
 
 //Game Level --> Medium
@@ -133,7 +124,7 @@ function lvlHard() {
   sysGenNum = genRandomNum(30);
 }
 
-// ----------- Function--> Btn Check ------------
+// ----------- Btn Check ------------
 btnCheck.addEventListener('click', () => {
   const usrGuessNum = numEncoding(guessInput.value);
 
@@ -160,6 +151,32 @@ btnCheck.addEventListener('click', () => {
     
   }
 });
+
+// ----------- Btn Again ------------
+btnAgain.addEventListener('click', () => {
+  let resetGame = confirm('Are you sure?');
+
+  if(resetGame) {
+    gameReset();
+  }
+});
+
+// ----------- Function--> Reset Game ------------
+function gameReset() {
+  secNum.style.width = "15rem";
+    secNum.textContent = '?';
+    gameBody.style.backgroundColor = "#222";
+
+    if(findSelected() === 'easy') {
+        lvlEasy();
+    } else if(findSelected() === 'medium') {
+      lvlMedium();
+    } else if(findSelected() === 'hard') {
+      lvlHard();
+    }
+
+    enable(btnCheck);
+}
 
 //------------Function Generate Random Num.------------
 function genRandomNum(numRange) {

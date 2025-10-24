@@ -19,6 +19,16 @@ const txtHiScore = document.querySelector('.highScore');
 const gameBody = document.querySelector('.body-container');
 const mainBody = document.getElementById('main-container');
 
+// Hi-Score variables
+let easyHiScore = 0;
+const easyHiScoreArr = [];
+
+let mediumHiScore = 0;
+const mediumHiScoreArr = [];
+
+let hardHiScore = 0;
+const hardHiScoreArr = [];
+
 // Initial
 let sysGenNum;
 let lvlScore;
@@ -55,73 +65,70 @@ radioBtns.forEach((radioBtn) => {
 //Game Level --> Easy
 function lvlEasy() {
 
-  // 1: Static txt content
+  // Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 20)';
   txtWrongPenalty.textContent = 'Wrong penalty (-1 score)';
   hintMsg.textContent = 'Start guessing..?';
   guessInput.value = '';
 
-  // 2: Game Level Design
+  // Game Level Design
   txtLevelInfo.style.color = '#000000'
   txtLevelInfo.style.backgroundColor = '#17adf8ff';
 
-  // 3: Game Score & HiScore Logic
+  // Give random num range based on level.
+  sysGenNum = genRandomNum(20);
+
+  // Game Score & HiScore Logic
   lvlScore = 20;
   txtScore.textContent = `${lvlScore}`;
 
-  const easyHiScoreArr = [];
-  easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
-
-  // Give random num range based on level.
-  sysGenNum = genRandomNum(20);
+  easyHiScoreArr.length == 0? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
 }
 
 //Game Level --> Medium
 function lvlMedium() {
 
-  // 1: Static txt content
+  // Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
   txtWrongPenalty.textContent = 'Wrong penalty (-2 score)';
   hintMsg.textContent = 'Start guessing..?';
   guessInput.value = '';
 
-  // 2: Game Level Design
+  // Game Level Design
   txtLevelInfo.style.color = '#000000'
   txtLevelInfo.style.backgroundColor = '#c1c50a';
 
-  // 3: Game Score & HiScore Logic
+  // Give random num range based on level.
+  sysGenNum = genRandomNum(30);
+
+  // Game Score & HiScore Logic
   lvlScore = 30;
   txtScore.textContent = `${lvlScore}`;
 
-  const easyHiScoreArr = [];
-  easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
-
-  // Give random num range based on level.
-  sysGenNum = genRandomNum(30);
+  mediumHiScoreArr.length == 0? txtHiScore.textContent = '0' : txtHiScore.textContent = `${mediumHiScoreArr[mediumHiScoreArr.length-1]}`;
 }
 
 //Game Level --> Hard
 function lvlHard() {
 
-  // 1: Static txt content
+  // Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
   txtWrongPenalty.textContent = 'Wrong penalty (-3 score)';
   hintMsg.textContent = 'Start guessing..?';
   guessInput.value = '';
 
-  // 2: Game Level Design
+  // Game Level Design
   txtLevelInfo.style.color = '#ffffff'
   txtLevelInfo.style.backgroundColor = '#cb1e55';
 
-  // 3: Game Score & HiScore Logic
+  // Give random num range based on level.
+  sysGenNum = genRandomNum(30);
+
+  // Game Score & HiScore Logic
   lvlScore = 30;
   txtScore.textContent = `${lvlScore}`;
 
-  const easyHiScoreArr = [];
-  easyHiScoreArr.length == 0 ? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
-
-  // Give random num range based on level.
-  sysGenNum = genRandomNum(30);
+  hardHiScoreArr.length == 0? txtHiScore.textContent = '0' : txtHiScore.textContent = `${hardHiScoreArr[hardHiScoreArr.length-1]}`;
 }
 
 // ----------- Btn Check ------------
@@ -130,8 +137,6 @@ btnCheck.addEventListener('click', () => {
 
   if(numComparison(usrGuessNum, sysGenNum)) {
     correctGuessMsg(sysGenNum);
-
-    //High score update
 
   }else {
     incorrectGuessMsg(guessInput.value, sysGenNum);
@@ -191,7 +196,6 @@ function numComparison(usrNum, gameNum) {
   return gameNum === usrNum ? true : false;
 }
 
-
 //-------------Individual functions start-------------
 
 //Function Correct Guess Msg
@@ -201,6 +205,8 @@ function correctGuessMsg(sysGenNum) {
   secNum.style.width = "25rem";
   disable(btnCheck);
   gameBody.style.backgroundColor = "#60b347";
+
+  updateHighScore();
 }
 
 //Function Incorrect Guess Msg
@@ -220,16 +226,44 @@ function gameOverMsg() {
   disable(btnCheck);
 }
 
-function disable(btn) { //Disable button
+//Disable button
+function disable(btn) { 
   btn.disabled = true;
   btn.style.cursor = "not-allowed";
   btn.style.opacity = ".2";
 }
 
-function enable(btn) { //Enable button
+//Enable button
+function enable(btn) { 
   btn.disabled = false;
   btn.style.cursor = "pointer";
   btn.style.opacity = "1";
+}
+
+// Function --> Maintain High Score
+function updateHighScore() {
+  if(findSelected() === 'easy') {
+
+    if(lvlScore > easyHiScore) {
+      easyHiScoreArr.push(lvlScore);
+    }
+    txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
+
+  } else if(findSelected() === 'medium') {
+
+    if(lvlScore > mediumHiScore) {
+      mediumHiScoreArr.push(lvlScore);
+    }
+    txtHiScore.textContent = `${mediumHiScoreArr[mediumHiScoreArr.length-1]}`;
+
+  } else if(findSelected() === 'hard') {
+
+    if(lvlScore > hardHiScore) {
+      hardHiScoreArr.push(lvlScore);
+    }
+    
+    txtHiScore.textContent = `${hardHiScoreArr[hardHiScoreArr.length-1]}`;
+  }
 }
 
 //-------------Individual functions ends-------------

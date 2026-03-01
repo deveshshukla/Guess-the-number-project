@@ -19,19 +19,40 @@ const txtHiScore = document.querySelector('.highScore');
 const gameBody = document.querySelector('.body-container');
 const mainBody = document.getElementById('main-container');
 
-// Hi-Score variables
+// Hi-Score variables (one per difficulty)
 let easyHiScore = 0;
-const easyHiScoreArr = [];
-
 let mediumHiScore = 0;
-const mediumHiScoreArr = [];
-
 let hardHiScore = 0;
-const hardHiScoreArr = [];
+
+// --- localStorage helpers --------------------------------------------------
+function loadHighScores() {
+  // read stored values or default to zero
+  easyHiScore = Number(localStorage.getItem('easyHiScore')) || 0;
+  mediumHiScore = Number(localStorage.getItem('mediumHiScore')) || 0;
+  hardHiScore = Number(localStorage.getItem('hardHiScore')) || 0;
+}
+
+function saveHighScore(level) {
+  switch (level) {
+    case 'easy':
+      localStorage.setItem('easyHiScore', easyHiScore);
+      break;
+    case 'medium':
+      localStorage.setItem('mediumHiScore', mediumHiScore);
+      break;
+    case 'hard':
+      localStorage.setItem('hardHiScore', hardHiScore);
+      break;
+  }
+}
+
+// ---------------------------------------------------------------------------
 
 // Initial
 let sysGenNum;
 let lvlScore;
+// get any previously stored highs before the first level is initialized
+loadHighScores();
 lvlEasy(); // by default easy level on game start
 
 
@@ -64,6 +85,8 @@ radioBtns.forEach((radioBtn) => {
 
 //Game Level --> Easy
 function lvlEasy() {
+  // make sure we have the latest stored high scores
+  loadHighScores();
 
   // Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 20)';
@@ -82,11 +105,14 @@ function lvlEasy() {
   lvlScore = 20;
   txtScore.textContent = `${lvlScore}`;
 
-  easyHiScoreArr.length == 0? txtHiScore.textContent = '0' : txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
+  // display current high score for easy level
+  txtHiScore.textContent = `${easyHiScore}`;
 }
 
 //Game Level --> Medium
 function lvlMedium() {
+  // keep highs up to date in case storage changed
+  loadHighScores();
 
   // Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
@@ -105,19 +131,20 @@ function lvlMedium() {
   lvlScore = 30;
   txtScore.textContent = `${lvlScore}`;
 
-  mediumHiScoreArr.length == 0? txtHiScore.textContent = '0' : txtHiScore.textContent = `${mediumHiScoreArr[mediumHiScoreArr.length-1]}`;
+  // display current high score for medium level
+  txtHiScore.textContent = `${mediumHiScore}`;
 }
 
 //Game Level --> Hard
 function lvlHard() {
+  // make sure stored scores are applied
+  loadHighScores();
 
   // Static txt content
   txtLevelInfo.textContent = 'Guess between (1 to 30)';
   txtWrongPenalty.textContent = 'Wrong penalty (-3 score)';
   hintMsg.textContent = 'Start guessing..?';
   guessInput.value = '';
-
-  // Game Level Design
   txtLevelInfo.style.color = '#ffffff'
   txtLevelInfo.style.backgroundColor = '#cb1e55';
 
@@ -128,7 +155,8 @@ function lvlHard() {
   lvlScore = 30;
   txtScore.textContent = `${lvlScore}`;
 
-  hardHiScoreArr.length == 0? txtHiScore.textContent = '0' : txtHiScore.textContent = `${hardHiScoreArr[hardHiScoreArr.length-1]}`;
+  // display current high score for hard level
+  txtHiScore.textContent = `${hardHiScore}`;
 }
 
 // ----------- Btn Check ------------
@@ -242,28 +270,25 @@ function enable(btn) {
 
 // Function --> Maintain High Score
 function updateHighScore() {
-  if(findSelected() === 'easy') {
-
-    if(lvlScore > easyHiScore) {
-      easyHiScoreArr.push(lvlScore);
+  // compare current lvlScore against stored high score for the active level
+  if (findSelected() === 'easy') {
+    if (lvlScore > easyHiScore) {
+      easyHiScore = lvlScore;
+      saveHighScore('easy');
     }
-    txtHiScore.textContent = `${easyHiScoreArr[easyHiScoreArr.length-1]}`;
+    txtHiScore.textContent = `${easyHiScore}`;
 
-  } else if(findSelected() === 'medium') {
-
-    if(lvlScore > mediumHiScore) {
-      mediumHiScoreArr.push(lvlScore);
+  } else if (findSelected() === 'medium') {
+    if (lvlScore > mediumHiScore) {
+      mediumHiScore = lvlScore;
+      saveHighScore('medium');
     }
-    txtHiScore.textContent = `${mediumHiScoreArr[mediumHiScoreArr.length-1]}`;
+    txtHiScore.textContent = `${mediumHiScore}`;
 
-  } else if(findSelected() === 'hard') {
-
-    if(lvlScore > hardHiScore) {
-      hardHiScoreArr.push(lvlScore);
+  } else if (findSelected() === 'hard') {
+    if (lvlScore > hardHiScore) {
+      hardHiScore = lvlScore;
+      saveHighScore('hard');
     }
-    
-    txtHiScore.textContent = `${hardHiScoreArr[hardHiScoreArr.length-1]}`;
   }
-}
-
-//-------------Individual functions ends-------------
+};
